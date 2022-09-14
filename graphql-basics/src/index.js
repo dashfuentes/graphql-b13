@@ -16,6 +16,7 @@ const schema = buildSchema(
 
 	type Mutation {
 		updateCourse(id: Int!, author: String) : Course
+		deleteCourse(id: Int!): [Course]
 	}
 
 	type Course {
@@ -52,13 +53,27 @@ const updateCourse = ( { id, author } ) => {
 	
 }
 
+const deleteCourse = ( { id }) => {
+	
+	let courseId = id;
+	//find the index for target object
+	const getIndex = courses.indexOf( {id:  courseId } );
+	console.log( getIndex );
+
+	return true
+
+	//remove the object
+
+	//return collection []
+}
 //graphql root object
 
 const root = {
 	//left side query name || right side function name
 	welcome: sayHello,
 	sayTrue: sayTrue,
-	updateCourse: updateCourse
+	updateCourse: updateCourse,
+	deleteCourse: deleteCourse
 };
 
 //route graphql client
