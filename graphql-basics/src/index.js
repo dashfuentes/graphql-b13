@@ -53,21 +53,20 @@ const updateCourse = ( { id, author } ) => {
 	
 }
 
+const addCourse = ( { id, author, name } ) => {
+	
+}
+
 const deleteCourse = ( { id }) => {
 	
 	let courseId = id;
-	//find the index for target object
-	const getIndex = courses.indexOf( {id:  courseId } );
-	console.log( getIndex );
-
-	return true
-
+	var index = courses.findIndex( x => id === courseId );
 	//remove the object
-
+	courses.splice( index, 1 )
 	//return collection []
+	return courses
 }
 //graphql root object
-
 const root = {
 	//left side query name || right side function name
 	welcome: sayHello,
