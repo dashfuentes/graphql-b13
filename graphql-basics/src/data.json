@@ -1,0 +1,29 @@
+{
+    "courses" : [
+        {
+             "id": 1,
+             "name": "test1",
+             "author": "author 1"
+        },
+        {
+            "id": 2,
+            "name": "test1",
+            "author": "author 2"
+        },
+        {
+            "id": 3,
+            "name": "test3",
+            "author": "devf"
+        },
+        {
+            "id": 4,
+            "name": "test4",
+            "author": "devf"
+        },
+        {
+            "id": 5,
+            "name": "test5",
+            "author": "devf"
+        }
+    ]
+}
