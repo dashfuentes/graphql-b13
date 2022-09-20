@@ -1,11 +1,11 @@
 const express = require( 'express' );
 const router = express.Router();
-const fetch = require( 'node-fetch' );
+// const fetch = require( 'node-fetch' );
 const fs = require( 'fs' );
 
 
 router.get( '/', ( req, res ) => {
-    //  res.render("")
+   return   res.render("layouts/main")
 } );
 
 router.post( "/get-place", ( req, res ) => {
@@ -24,3 +24,4 @@ const download = async () => {
 
 })
 
+module.exports = router;
