@@ -1,0 +1,19 @@
+{
+  "name": "node-nasa-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev" : "nodemon src/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "node-fetch": "^3.2.10",
+    "nodemon": "^2.0.20"
+  }
+}
