@@ -10,17 +10,18 @@ router.get( '/', ( req, res ) => {
 
 router.post( "/get-place", ( req, res ) => {
     const { lon, lat } = req.body;
+    console.log( 'longitud', lon );
+    console.log( 'latitud', lat )
     const currentDate = new Date().toISOString();
     const date = req.body.date ? req.body.date : currentDate;
     const baseUrl = `https://api.nasa.gov/planetary/earth/imagery?lon=${lon}&lat=${lat}&date=${date}&dim=0.025&api_key=aJHIN99cuHZzd2sr8bNSyeKZo74LslkNgOZ5I3Nv`   
     
-
-
+    return res.json({"message": 'success'})
     
-const download = async () => {
-    
+    const download = async () => {
+        
 
-}
+    }
 
 })
 
