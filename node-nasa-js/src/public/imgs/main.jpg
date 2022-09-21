@@ -1,0 +1,1 @@
+{"date":"2020-09-22T10:52:40.563000","id":"LANDSAT/LC08/C01/T1_SR/LC08_201024_20200922","resource":{"dataset":"LANDSAT/LC08/C01/T1_SR","planet":"earth"},"service_version":"v5000","url":"https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/thumbnails/8118fc8e27733cfe2ffa2efb2341599e-b51001334d201abd16fce6b8926c8127:getPixels"}

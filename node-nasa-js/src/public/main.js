@@ -4,7 +4,7 @@ let btn = document.querySelector( '.search-place' );
 console.log(btn)
 
 btn.addEventListener( "click", ( e ) => {
-    
+    e.preventDefault();
     //get input values
     let getCoordinates = document.querySelector( '#lat-lon' ).value;
     let getDate = document.querySelector( '#date' ).value;
@@ -17,22 +17,20 @@ btn.addEventListener( "click", ( e ) => {
         lat: coordinates[1],
         date: getDate
     }
-    console.log( points )
-    debugger
-    console.log( getDate );
     
     //build async function to send coordinates to endpoint
-   async function sendPoints( url = "", object ) {
+   async function sendPoints( url = "" ) {
         const response = await fetch( url, {
             method: "POST",
+            cache: "no-cache",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(object)
+            body: JSON.stringify(points)
         } )
         
         return response.json();
     }
 
-    sendPoints( uri, points ).then( ( data ) => {
+    sendPoints( uri ).then( ( data ) => {
         console.log( 'response from endpoint', data )
     } );
 
