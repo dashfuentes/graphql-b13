@@ -1,7 +1,8 @@
 "use strict"
 
 let btn = document.querySelector( '.search-place' );
-console.log(btn)
+console.log( btn )
+let imgContainer = document.querySelector( '.img-container' );
 
 btn.addEventListener( "click", ( e ) => {
     e.preventDefault();
@@ -31,7 +32,15 @@ btn.addEventListener( "click", ( e ) => {
     }
 
     sendPoints( uri ).then( ( data ) => {
-        console.log( 'response from endpoint', data )
+        console.log( 'response from endpoint', data ); //slices 
+
+        const dataArr =['./imgs/source/brand.png','./imgs/source/brand.png']
+        dataArr.map( ( line ) => {
+            let img = document.createElement( "img" );
+            img.setAttribute( "src", line );
+            imgContainer.appendChild( img );
+        })
+
     } );
 
     //build function to render tiles

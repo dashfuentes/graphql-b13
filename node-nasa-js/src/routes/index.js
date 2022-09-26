@@ -1,76 +1,81 @@
-const express = require( 'express' );
+const express = require("express");
 const router = express.Router();
-const fetch = require( 'node-fetch' );
-const fs = require( 'fs' );
+const fs = require("fs");
 const imageToSlices = require("image-to-slices");
-const { debug } = require( 'console' );
+const request = require("request");
+const axios = require("axios");
 
+router.get("/", (req, res) => {
+	return res.render("layouts/main");
+});
 
-router.get( '/', ( req, res ) => {
-   return   res.render("layouts/main")
-} );
+router.post("/get-place", (req, res) => {
+	const { lon, lat } = req.body;
+	const todayDate = new Date().toISOString().slice(0, 10);
+	const date = req.body.date ? req.body.date : todayDate;
 
-router.post( "/get-place", ( req, res ) => {
-    console.log( req.body )
-    const { lon, lat } = req.body;
-    console.log( 'longitud', lon );
-    console.log( 'latitud', lat )
-    const currentDate = new Date().toISOString().slice(0, 10); //2022/09/21 
-    console.log( currentDate );
-    const date = req.body.date ? req.body.date : currentDate;
-    const baseUrl = `https://api.nasa.gov/planetary/earth/assets?lon=${lon}&lat=${lat}&date=${date}&dim=0.025&api_key=aJHIN99cuHZzd2sr8bNSyeKZo74LslkNgOZ5I3Nv`   
- 
+	const uri = `https://api.nasa.gov/planetary/earth/assets?lon=${lon}&lat=${lat}&date=${date}&dim=0.50&api_key=gNVY3OiQQekxdGav8oAVNkRgzbuLPEb5ylmspu34`;
 
-    const slices = () => {
-       
-        var lineXArray = [100, 200];
-        var lineYArray = [100, 200];
-        var source = './src/public/imgs/source/main.jpg'; 
-        console.log(source)
+	/**
+	 * This function makes the crop in 9 portions of the image obtained from the Nasa API
+	 * This function was created with the image-to-slices module
+	 *  @returns {Object} files "returns the URLs of our images"
+	 */
+	const slices = () => {
+		let lineXArray = [682, 1364];
+		let lineYArray = [682, 1364];
+		let source = "./src/public/imgs/source/main.png";
+		imageToSlices(
+			source,
+			lineXArray,
+			lineYArray,
+			{
+				saveToDir: "./src/public/imgs/slices",
+				clipperOptions: {
+					canvas: require("canvas"),
+				},
+			},
+			function () {
+				res.json({ message: "success" });
+			}
+		);
+	};
 
-        imageToSlices(
-            source,
-            lineXArray,
-            lineYArray,
-            {
-               //target the folder name to save slices 
-                saveToDir: "./src/public/imgs/slices",
-                clipperOptions: {
-                    canvas : require("canvas")
-                }
-            },
+	/**
+	 * This function makes the request to the NASA API to download the image and then we chain the image cropping function
+	 */
+	const download = () => {
+		axios
+			.get(uri)
+			.then((res) => {
+				console.log("response from api", res);
+				var data = res.data;
+				var imgURL = data.url;
+				return imgURL;
+			})
+			.then((response) => {
+				console.log("second function");
+				return fetchImgToDownload(
+					response,
+					"./src/public/imgs/source/main.png",
+					function () {
+						//we need to call slices fn
+							slices()
+					}
+				);
+			});
+	};
 
-            //Create function to send the slices to the js main file
-            function () {
-                res.json({message: 'success'})
-            }
-        )
-        
-    }
- 
-    //this function retrieves the img from the API and save the img in the imgs/source folder
-    const download = async () => {
-        
-        //get the img response from nasa api
-        const response = await fetch( baseUrl );
-        console.log(response)
-        //Parse the img to a binary file
-        const buffer = await response.buffer();
-        console.log(buffer)
+	const fetchImgToDownload = (uri, filename, callback) => {
+		request.head(uri, function (err, res, body) {
+			request(uri).pipe(fs.createWriteStream(filename)).on("close", callback);
+		});
+	};
 
-        
-        fs.promises
-            .writeFile( `./src/public/imgs/source/main.jpg`, buffer )
-            .then( () => {
-                console.log( 'success' )
-                slices();
-            } );
-
-    }
-
-    //this is my core function
-     download();
-
-})
+	/**
+	 * This instruction executes the main function of this file
+	 */
+	download();
+});
 
 module.exports = router;
