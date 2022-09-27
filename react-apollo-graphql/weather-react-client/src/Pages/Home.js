@@ -4,6 +4,7 @@ import { useLazyQuery } from '@apollo/client';
 
 function Home() {
     const [citySearched, setCitySearch] = useState( "" );
+    const [citySearchedID, setCitySearchedId] =  useState("")
     console.log(citySearched)
     /**
      * @param  {} GET_WEATHER_QUERY query name from Queries.js 
@@ -19,6 +20,11 @@ function Home() {
     if ( data ) {
         console.log('response', data)
     }
+
+    ///Create function to fetch the query getCityById
+    // const [fetchCityById, { data, error }] = useLazyQuery( GET_WEATHER_BY_ID, {
+    //     variables : {id:citySearchedID }
+    // } )
         
     return (
         <div className='home'>
@@ -44,6 +50,19 @@ function Home() {
                            
                     
                 }
+            </div>
+
+            <div>
+                  
+            <h1>Search by ID</h1>
+            <input
+                type="text"
+                placeholder="City name..."
+                onChange={( event ) => {
+                    setCitySearchedId( event.target.value )
+                }}
+            />
+            
             </div>
         </div>
     );
