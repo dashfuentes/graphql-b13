@@ -1,0 +1,11 @@
+type Query {
+  getMessages: [Message!]
+}
+
+
+type Message {
+  _id: ID!
+  title: String!
+  content: String!
+  author: String!
+}
