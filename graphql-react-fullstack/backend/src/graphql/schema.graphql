@@ -8,3 +8,7 @@ type Message {
   content: String!
   author: String!
 }
+
+type Mutation {
+  createMessage(title: String!, content: String!, author:String!): Message
+}
