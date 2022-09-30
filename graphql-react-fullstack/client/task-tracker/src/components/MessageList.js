@@ -24,8 +24,20 @@ const MessageList = () => {
 	}
 
 	return (
-		<div>
-			<h1>Rendering view</h1>
+		<div className="row">
+			<div className="col-md-6 offset-md-3">
+				 { data && data.getMessages.map(({ _id, title, author, content } ) => (
+					<div key={_id} className="card m-2">
+						<div className="card-body">
+							<h4>{title}</h4>
+							<p>{author}</p>
+							<p>{ content}</p>
+						 </div>
+						 <button className="btn btn-danger"> Delete</button>
+					</div>
+				))} 
+			</div>
+			
 		</div>
 	);
 };

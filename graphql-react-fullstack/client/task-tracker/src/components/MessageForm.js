@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { GET_MESSAGES } from "./MessageList";
 
 export default function MessageForm() {
+
+	const navigate = useNavigate();
 
 	const CREATE_MESSAGE = gql`
 		mutation createMessage(
@@ -19,7 +22,12 @@ export default function MessageForm() {
 
 	const [content, setContent] = useState("");
 	const [title, setTitle] = useState("");
-	const [author, setAuthor] = useState("");
+	const [author, setAuthor] = useState( "" );
+	
+	const [createMessage] = useMutation( CREATE_MESSAGE, {
+		//fetch the list of the current documents in the database
+		refetchQueries : [{query : GET_MESSAGES}]
+	})
 
 	return (
 		<div className="row">
@@ -27,10 +35,13 @@ export default function MessageForm() {
 				<div className="card">
 					<div className="card-body">
 						<form
-							onSubmit={( e ) => {
+							onSubmit={ async( e ) => {
 								e.preventDefault();
-								const variables = { title: title, author: author, content: content };
-								return console.log( 'creating document', variables );
+								//creating the new document in the collection
+								await createMessage( { variables: { title, author, content } } )
+								//redirect to the list
+								navigate("/")
+								
 							}}
 						>
 							<div class="mb-3">
