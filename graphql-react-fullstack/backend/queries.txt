@@ -1,0 +1,17 @@
+<--- Mutation --->
+
+mutation createMessage($title: String!, $content:  String!, $author:  String!) {
+  createMessage(title: $title, content: $content, author: $author) {
+    _id
+    title
+  }
+}
+
+variables 
+     {
+        "title": "halloween",
+        "content": "halloween",
+        "author": "halloween"
+    }
+
+<-- Mutation  -->
